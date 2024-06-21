@@ -8,17 +8,20 @@ import org.springframework.stereotype.Service;
 import com.workshop.library.api.dto.request.BookRequest;
 import com.workshop.library.api.dto.response.BookOnlyReservations;
 import com.workshop.library.api.dto.response.BookResponse;
+import com.workshop.library.api.dto.response.BookResponse;
 import com.workshop.library.api.dto.response.BookResponseFull;
 import com.workshop.library.domain.entities.Book;
 import com.workshop.library.domain.repositories.BookRepository;
 import com.workshop.library.infrastructure.abstract_services.IBookService;
+import com.workshop.library.utils.enums.exceptions.BadRequestException;
+import com.workshop.library.utils.enums.message.ErrorMessage;
 import com.workshop.library.utils.mappers.BookMapper;
 
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class BookService implements IBookService{
+public class BookService implements IBookService {
 
     @Autowired
     private final BookRepository bookRepository;
@@ -27,26 +30,26 @@ public class BookService implements IBookService{
     private final BookMapper bookMapper;
 
     @Override
-    public BookResponseFull getById(Long id) {
+    public BookResponse getById(Long id) {
         Book book = this.find(id);
-        return this.bookMapper.BookToResponseFull(book);
+        return this.bookMapper.BookToResponse(book);
     }
 
     @Override
-    public BookResponseFull create(BookRequest request) {
+    public BookResponse create(BookRequest request) {
         Book book = this.bookMapper.RequestToBook(request);
-        return this.bookMapper.BookToResponseFull(this.bookRepository.save(book));
+        return this.bookMapper.BookToResponse(this.bookRepository.save(book));
     }
 
     @Override
-    public BookResponseFull update(Long id, BookRequest request) {
+    public BookResponse update(Long id, BookRequest request) {
 
         this.find(id);
         Book bookToUpdate = this.bookMapper.RequestToBook(request);
         bookToUpdate.setId(id);
         Book bookSaved = this.bookRepository.save(bookToUpdate);
-        return this.bookMapper.BookToResponseFull(bookSaved);
-    
+        return this.bookMapper.BookToResponse(bookSaved);
+
     }
 
     @Override
@@ -54,15 +57,17 @@ public class BookService implements IBookService{
         this.bookRepository.deleteById(id);
     }
 
-    private Book find(Long id){
-        return this.bookRepository.findById(id).orElseThrow();
+    private Book find(Long id) {
+        return this.bookRepository.findById(id).orElseThrow(() -> new BadRequestException(ErrorMessage.idNotFound("book")));
     }
 
     @Override
     public Page<BookResponse> getAll(int page, int size) {
 
-        if(page < 0) page = 0;
-        PageRequest pagination = PageRequest.of(page -1, size);
+        if (page < 0)
+            page = 0;
+
+        PageRequest pagination = PageRequest.of(page, size);
 
         return this.bookRepository.findAll(pagination).map(bookMapper::BookToResponse);
 
