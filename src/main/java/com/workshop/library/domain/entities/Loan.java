@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.workshop.library.utils.enums.statusType;
+import com.workshop.library.utils.enums.StatusType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,7 +40,7 @@ public class Loan {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private statusType status;
+    private StatusType status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)

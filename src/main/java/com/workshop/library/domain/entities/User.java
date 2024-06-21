@@ -2,7 +2,7 @@ package com.workshop.library.domain.entities;
 
 import java.util.List;
 
-import com.workshop.library.utils.enums.roleType;
+import com.workshop.library.utils.enums.RoleType;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -45,7 +45,7 @@ public class User {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private roleType role;
+    private RoleType role;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
