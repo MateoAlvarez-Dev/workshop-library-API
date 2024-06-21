@@ -8,6 +8,8 @@ import com.workshop.library.api.dto.response.ReservationResponseFull;
 import com.workshop.library.domain.entities.Reservation;
 import com.workshop.library.domain.repositories.ReservationRepository;
 import com.workshop.library.infrastructure.abstract_services.IReservationService;
+import com.workshop.library.utils.enums.exceptions.BadRequestException;
+import com.workshop.library.utils.enums.message.ErrorMessage;
 import com.workshop.library.utils.mappers.ReservationMapper;
 
 import lombok.AllArgsConstructor;
@@ -47,7 +49,7 @@ public class ReservationService implements IReservationService {
     }
 
     private Reservation findById(Long id){
-        return this.reservationRepository.findById(id).orElseThrow();
+        return this.reservationRepository.findById(id).orElseThrow(() -> new BadRequestException(ErrorMessage.idNotFound("reservation")));
     }
     
     

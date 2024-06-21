@@ -31,12 +31,12 @@ public class UserController {
         return ResponseEntity.ok(this.userService.getById(id));
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{id}/loans")
     public ResponseEntity<UserOnlyLoans> getOnlyLoans(@PathVariable(name = "id") Long id){
         return ResponseEntity.ok(this.userService.getUserLoans(id));
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{id}/reservations")
     public ResponseEntity<UserOnlyReservations> getOnlyReservations(@PathVariable(name = "id") Long id){
         return ResponseEntity.ok(this.userService.getUserReservations(id));
     }

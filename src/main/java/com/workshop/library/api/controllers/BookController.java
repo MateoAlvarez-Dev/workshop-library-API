@@ -37,7 +37,7 @@ public class BookController {
         return ResponseEntity.ok(this.bookService.getAll(page - 1, size));
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{id}/reservations")
     public ResponseEntity<BookOnlyReservations> getOnlyReservations(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(this.bookService.getOnlyReservations(id));
     }

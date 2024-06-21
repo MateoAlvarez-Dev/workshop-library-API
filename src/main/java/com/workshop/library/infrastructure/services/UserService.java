@@ -10,6 +10,8 @@ import com.workshop.library.api.dto.response.UserResponseFull;
 import com.workshop.library.domain.entities.User;
 import com.workshop.library.domain.repositories.UserRepository;
 import com.workshop.library.infrastructure.abstract_services.IUserService;
+import com.workshop.library.utils.enums.exceptions.BadRequestException;
+import com.workshop.library.utils.enums.message.ErrorMessage;
 import com.workshop.library.utils.mappers.UserMapper;
 
 import lombok.AllArgsConstructor;
@@ -63,7 +65,7 @@ public class UserService implements IUserService {
     }
     
     private User findById(Long id){
-        return this.userRepository.findById(id).orElseThrow();
+        return this.userRepository.findById(id).orElseThrow(() -> new BadRequestException(ErrorMessage.idNotFound("user")));
     }
 
     
