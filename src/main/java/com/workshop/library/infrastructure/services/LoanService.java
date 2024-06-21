@@ -1,41 +1,62 @@
 package com.workshop.library.infrastructure.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import com.workshop.library.api.dto.request.LoanRequest;
 import com.workshop.library.api.dto.response.LoanResponse;
+import com.workshop.library.domain.entities.Loan;
+import com.workshop.library.domain.repositories.LoanRepository;
 import com.workshop.library.infrastructure.abstract_services.ILoanService;
+import com.workshop.library.utils.mappers.LoanMapper;
 
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
 public class LoanService implements ILoanService{
+
+    @Autowired
+    private final LoanRepository loanRepository;
+
+    @Autowired
+    private final LoanMapper loanMapper;
 
     @Override
     public Page<LoanResponse> getAll(int page, int size) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        if(page < 0) page = 0;
+        PageRequest paginated = PageRequest.of(page -1, size);
+        return this.loanRepository.findAll(paginated).map(loanMapper::loanToloanResponse);
     }
 
     @Override
     public LoanResponse getById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+        Loan loan = this.find(id);
+        return this.loanMapper.loanToloanResponse(loan);
     }
 
     @Override
     public LoanResponse create(LoanRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        Loan loan = this.loanMapper.loanRequestToLoan(request);
+        return this.loanMapper.loanToloanResponse(this.loanRepository.save(loan));
     }
 
     @Override
     public LoanResponse update(Long id, LoanRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        Loan loanToUpdate = this.find(id);
+        loanMapper.updateFromloanRequest(request, loanToUpdate);
+        loanToUpdate.setId(id);
+        return loanMapper.loanToloanResponse(loanToUpdate);
     }
 
     @Override
     public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        this.loanRepository.deleteById(id);
     }
-    
+
+    private Loan find(Long id){
+        return this.loanRepository.findById(id).orElseThrow();
+    }
 }
