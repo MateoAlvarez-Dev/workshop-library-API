@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.workshop.library.api.dto.request.UserRequest;
-import com.workshop.library.api.dto.response.UserResponse;
+import com.workshop.library.api.dto.response.UserResponseFull;
 import com.workshop.library.infrastructure.abstract_services.IUserService;
 
 import lombok.AllArgsConstructor;
@@ -25,17 +25,17 @@ public class UserController {
     private final IUserService userService;
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<UserResponse> get(@PathVariable(name = "id") Long id){
+    public ResponseEntity<UserResponseFull> get(@PathVariable(name = "id") Long id){
         return ResponseEntity.ok(this.userService.getById(id));
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> create(UserRequest request){
+    public ResponseEntity<UserResponseFull> create(UserRequest request){
         return ResponseEntity.ok(this.userService.create(request));
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<UserResponse> update(@PathVariable(name = "id") Long id, UserRequest request){
+    public ResponseEntity<UserResponseFull> update(@PathVariable(name = "id") Long id, UserRequest request){
         return ResponseEntity.ok(this.userService.update(id, request));
     }
 

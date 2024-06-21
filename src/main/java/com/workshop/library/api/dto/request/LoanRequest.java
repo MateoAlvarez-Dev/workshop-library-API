@@ -12,7 +12,7 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-import com.workshop.library.utils.enums.statusType;
+import com.workshop.library.utils.enums.StatusType;
 
 @Data
 @ToString
@@ -29,7 +29,7 @@ public class LoanRequest {
     private LocalDateTime returnDate;
 
     @Pattern(regexp = "ACTIVE|INACTIVE", message = "Status must be either 'ACTIVE' or 'INACTIVE'")
-    private statusType status;
+    private StatusType status;
     @NotNull(message = "User ID cannot be null")
     private Long user_id;
     @NotNull(message = "Book ID cannot be null")

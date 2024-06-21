@@ -1,8 +1,6 @@
 package com.workshop.library.infrastructure.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.workshop.library.api.dto.request.LoanRequest;
@@ -23,13 +21,6 @@ public class LoanService implements ILoanService{
 
     @Autowired
     private final LoanMapper loanMapper;
-
-    @Override
-    public Page<LoanResponse> getAll(int page, int size) {
-        if(page < 0) page = 0;
-        PageRequest paginated = PageRequest.of(page -1, size);
-        return this.loanRepository.findAll(paginated).map(loanMapper::loanToloanResponse);
-    }
 
     @Override
     public LoanResponse getById(Long id) {

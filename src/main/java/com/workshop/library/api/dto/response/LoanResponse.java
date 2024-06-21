@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import com.workshop.library.utils.enums.statusType;
+import com.workshop.library.utils.enums.StatusType;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +17,7 @@ public class LoanResponse {
 
     private LocalDateTime loanDate;
     private LocalDateTime returnDate;
-    private statusType status;
+    private StatusType status;
     private Long user_id;
     private Long book_id;
 }

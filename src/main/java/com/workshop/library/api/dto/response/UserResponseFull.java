@@ -1,5 +1,7 @@
 package com.workshop.library.api.dto.response;
 
+import java.util.List;
+
 import com.workshop.library.utils.enums.RoleType;
 
 import lombok.AllArgsConstructor;
@@ -20,5 +22,7 @@ public class UserResponseFull {
     private String email;
 
     private RoleType role;
+
+    private List<LoanResponse> loans;
 
 }
