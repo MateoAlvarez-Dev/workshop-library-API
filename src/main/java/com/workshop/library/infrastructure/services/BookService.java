@@ -6,6 +6,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.workshop.library.api.dto.request.BookRequest;
+import com.workshop.library.api.dto.response.BookOnlyReservations;
+import com.workshop.library.api.dto.response.BookResponse;
 import com.workshop.library.api.dto.response.BookResponseFull;
 import com.workshop.library.domain.entities.Book;
 import com.workshop.library.domain.repositories.BookRepository;
@@ -57,13 +59,18 @@ public class BookService implements IBookService{
     }
 
     @Override
-    public Page<BookResponseFull> getAll(int page, int size) {
+    public Page<BookResponse> getAll(int page, int size) {
 
         if(page < 0) page = 0;
         PageRequest pagination = PageRequest.of(page -1, size);
 
-        return this.bookRepository.findAll(pagination).map(bookMapper::BookToResponseFull);
+        return this.bookRepository.findAll(pagination).map(bookMapper::BookToResponse);
 
+    }
+
+    @Override
+    public BookOnlyReservations getOnlyReservations(Long id) {
+        return this.bookMapper.bookToOnlyReservations(this.find(id));
     }
 
 }
