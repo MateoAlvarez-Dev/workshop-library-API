@@ -3,7 +3,6 @@ package com.workshop.library.api.dto.request;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +27,6 @@ public class LoanRequest {
     @Future(message = "Return date must be in the future")
     private LocalDateTime returnDate;
 
-    @Pattern(regexp = "ACTIVE|INACTIVE", message = "Status must be either 'ACTIVE' or 'INACTIVE'")
     private StatusType status;
     @NotNull(message = "User ID cannot be null")
     private Long user_id;
